@@ -1,0 +1,50 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { COMPANY_INFO } from '../consts';
+---
+
+<BaseLayout 
+  pageTitle="Contact" 
+  description="Contact information, official communication channels, and social links."
+>
+  <h1>Communication</h1>
+  <p>Available channels for inquiry.</p>
+
+  <div class="terminal-window">
+    <p>> list_channels</p>
+    
+    <div class="channel-list">
+      <div class="channel">
+        <span class="label">EMAIL:</span>
+        <a href={`mailto:${COMPANY_INFO.email}`}>{COMPANY_INFO.email}</a>
+      </div>
+      
+      {COMPANY_INFO.url && (
+      <div class="channel">
+        <span class="label">WEB:</span>
+        <a href={COMPANY_INFO.url} target="_blank">{COMPANY_INFO.url}</a>
+      </div>
+      )}
+
+      <div class="channel">
+        <span class="label">PGP KEY:</span>
+        <span class="mono">Creating keys... (Not Available)</span>
+      </div>
+    </div>
+
+    <p style="margin-top: 2rem;">> awaiting_input<span class="blink">_</span></p>
+  </div>
+
+  <style>
+    .terminal-window {
+      background: rgba(0,0,0,0.5);
+      border: 1px solid var(--grid-color);
+      padding: 1.5rem;
+      margin-top: 2rem;
+    }
+    .channel { margin-bottom: 1rem; display: flex; flex-wrap: wrap; }
+    .label { width: 100px; color: var(--accent-color); }
+    .blink { animation: blinker 1s linear infinite; }
+    @keyframes blinker { 50% { opacity: 0; } }
+  </style>
+</BaseLayout>

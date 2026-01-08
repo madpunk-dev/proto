@@ -1,0 +1,38 @@
+---
+// src/layouts/BaseLayout.astro
+import BaseHead from '../components/BaseHead.astro'; // ★これを追加
+import '../styles/global.css';
+import { SITE_CONFIG } from '../consts';
+
+// description も受け取れるようにしておくと便利です
+const { pageTitle, description = "Under Construction" } = Astro.props;
+---
+
+<html lang="ja">
+  <head>
+    <BaseHead 
+      title={`${pageTitle} | ${SITE_CONFIG.domain}`} 
+      description={description} 
+    />
+    <style define:vars={{ accentColor: SITE_CONFIG.themeColor }}>
+      :root {
+        --accent-color: var(--accentColor);
+      }
+    </style>
+  </head>
+  <body>
+    <header style="padding: 1rem 2rem; border-bottom: 1px solid var(--grid-color);">
+      <nav>
+        <a href="/" style="margin-right: 1rem;">/ROOT</a>
+        <a href="/about" style="margin-right: 1rem;">/ABOUT</a>
+        <a href="/contact">/CONTACT</a>
+      </nav>
+    </header>
+    <main>
+      <slot /> 
+    </main>
+    <footer style="padding: 2rem; text-align: center; font-size: 0.8rem; opacity: 0.6;">
+      © {new Date().getFullYear()} {SITE_CONFIG.domain}
+    </footer>
+  </body>
+</html>

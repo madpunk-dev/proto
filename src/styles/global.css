@@ -1,0 +1,70 @@
+/* src/styles/global.css */
+:root {
+  --bg-color: #0a0a0a;
+  --text-color: #e0e0e0;
+  --grid-color: #333;
+
+/* ★魔法の呪文: Hexコードから H/S/L を抽出して、Hueだけ180度回す */
+  --complement-color: hsl(from var(--accent-color) calc(h + 180) s l);
+
+  --font-mono: "Courier New", Courier, monospace;
+}
+
+body {
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  font-family: var(--font-mono);
+  margin: 0;
+  line-height: 1.6;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* 画面全体に薄いグリッドを敷く（Granum風） */
+body::before {
+  content: "";
+  position: fixed;
+  top: 0; left: 0; width: 100%; height: 100%;
+  background-image: 
+    linear-gradient(var(--grid-color) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-color) 1px, transparent 1px);
+  background-size: 50px 50px;
+  z-index: -1;
+  opacity: 0.3;
+}
+
+main {
+  flex: 1;
+  padding: 2rem;
+  max-width: 800px;
+  margin: 0 auto;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+h1 {
+  font-size: 2.5rem;
+  border-bottom: 2px solid var(--complement-color); /* 自動で補色になります */
+  display: inline-block;
+  padding-bottom: 0.5rem;
+  margin-bottom: 2rem;
+}
+
+.status-badge {
+  border: 1px solid var(--accent-color);
+  color: var(--accent-color);
+  padding: 0.2rem 0.5rem;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+/* リンクのスタイル */
+a { color: var(--text-color); text-decoration: none; border-bottom: 1px dashed var(--accent-color); }
+a:hover { background-color: var(--accent-color); color: var(--bg-color); }
+
+/* テーブル（Aboutページ用） */
+table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
+th, td { border: 1px solid var(--grid-color); padding: 1rem; text-align: left; }
+th { width: 30%; color: var(--accent-color); }
