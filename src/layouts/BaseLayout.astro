@@ -1,11 +1,21 @@
 ---
 // src/layouts/BaseLayout.astro
-import BaseHead from '../components/BaseHead.astro'; // ★これを追加
+import BaseHead from '../components/BaseHead.astro';
 import '../styles/global.css';
 import { SITE_CONFIG } from '../consts';
 
-// description も受け取れるようにしておくと便利です
 const { pageTitle, description = "Under Construction" } = Astro.props;
+
+// ▼▼▼ ナビゲーション自動生成ロジック（追加） ▼▼▼
+const allPages = await Astro.glob('../pages/*.astro');
+const navLinks = allPages
+  .filter((page) => page.nav) // "export const nav" があるページのみ
+  .sort((a, b) => a.nav.order - b.nav.order) // order順に並び替え
+  .map((page) => ({
+    label: page.nav.title,
+    url: page.url || '/', 
+  }));
+// ▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲
 ---
 
 <html lang="ja">
@@ -22,10 +32,19 @@ const { pageTitle, description = "Under Construction" } = Astro.props;
   </head>
   <body>
     <header style="padding: 1rem 2rem; border-bottom: 1px solid var(--grid-color);">
-      <nav>
-        <a href="/" style="margin-right: 1rem;">/ROOT</a>
-        <a href="/about" style="margin-right: 1rem;">/ABOUT</a>
-        <a href="/contact">/CONTACT</a>
+      <nav style="display: flex; gap: 1.5rem;">
+        
+        {/* ▼▼▼ 自動生成ループ ▼▼▼ */}
+        {navLinks.map((link) => (
+          <a 
+            href={link.url}
+            class={Astro.url.pathname === link.url ? 'active' : ''}
+          >
+            {link.label}
+          </a>
+        ))}
+        {/* ▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲ */}
+
       </nav>
     </header>
     <main>
@@ -34,5 +53,19 @@ const { pageTitle, description = "Under Construction" } = Astro.props;
     <footer style="padding: 2rem; text-align: center; font-size: 0.8rem; opacity: 0.6;">
       © {new Date().getFullYear()} {SITE_CONFIG.domain}
     </footer>
+
+    <style>
+      /* 現在のページを目立たせるスタイルを追加 */
+      a.active {
+        font-weight: bold;
+        color: var(--accent-color);
+        border-bottom: 1px solid var(--accent-color);
+      }
+      /* アップロードされたCSSのaタグスタイルと喧嘩しないよう調整 */
+      a {
+        text-decoration: none;
+        transition: opacity 0.2s;
+      }
+    </style>
   </body>
 </html>

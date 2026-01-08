@@ -1,7 +1,7 @@
 // src/consts.ts
 export const SITE_CONFIG = {
   domain: "proto.madpunk.dev",        // ドメイン名
-  siteTitle: "PROJECT ALPHA",   // サイトのタイトル
+  siteTitle: "Project: MAD PYRAMID",   // サイトのタイトル
   status: "Under Construction", // ステータス表示
 //  themeColor: "#eeff00",        // アクセントカラー（緑やアンバーなど）
   themeColor: "#00ff41",        //  ターミナルグリーン

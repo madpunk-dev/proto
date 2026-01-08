@@ -1,0 +1,116 @@
+---
+// src/pages/network.astro
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+// ★メニュー設定：3番目に表示
+export const nav = { title: '/NETWORK', order: 30 };
+
+const nodes = [
+  { 
+    name: 'MadPunks', 
+    url: 'https://madpunks.com/', 
+    desc: 'THE CAPSTONE / Core Identity / Spirit & Logic',
+    status: 'online'
+  },
+  { 
+    name: 'GRANUM.ONLINE', 
+    url: 'https://www.granum.online/', 
+    desc: 'THE STRUCTURE / Runtime Environment / Digital Entity',
+    status: 'online'
+  },
+  { 
+    name: 'asfact(PrismZero)', 
+    url: 'https://asfact.jp/', 
+    desc: 'THE ARCHIVE / Application Layer / Memory Banks',
+    status: 'online' 
+  },
+  { 
+    name: 'PrisonZero', 
+    url: 'https://prisonzero.com/', 
+    desc: 'THE CONTAINMENT / Security Protocol / The Dungeon',
+    status: 'online'
+  },
+  { 
+    name: 'MadPunk Dev', 
+    url: 'https://madpunk.dev/', 
+    desc: 'THE FOUNDRY / R&D Laboratory / Tech Forge',
+    status: 'online'
+  },
+  { 
+    name: 'proto.madpunk.dev', 
+    url: 'https://github.com/madpunk-dev/proto', 
+    desc: 'THE BLUEPRINT / Prototype / Construction Node',
+    status: 'online'
+  }
+];
+---
+
+<BaseLayout pageTitle="Network" description="Affiliated organizations and connected nodes.">
+  <h1>Alliance Network</h1>
+  
+  <p style="margin-bottom: 2rem;">
+    Connected Nodes & Projects
+  </p>
+
+  <div class="network-grid">
+    {nodes.map((node) => (
+      <a href={node.url} class="node-card" target="_blank" rel="noopener noreferrer">
+        <div class="node-header">
+          <span class="node-name">{node.name}</span>
+          <span class={`status ${node.status}`}>● {node.status.toUpperCase()}</span>
+        </div>
+        <div class="node-desc">{node.desc}</div>
+      </a>
+    ))}
+  </div>
+
+  <style>
+    .network-grid {
+      display: grid;
+      gap: 1.5rem;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    }
+
+    .node-card {
+      display: block;
+      border: 1px solid var(--grid-color);
+      padding: 1.5rem;
+      background: rgba(255, 255, 255, 0.02);
+      transition: all 0.2s;
+      border-left: 3px solid transparent;
+    }
+
+    .node-card:hover {
+      background: rgba(255, 255, 255, 0.05);
+      border-color: var(--accent-color);
+      border-left: 3px solid var(--accent-color); /* ホバー時に左線が出る演出 */
+      color: var(--text-color); /* global.cssのリンク色上書き防止 */
+    }
+
+    .node-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.5rem;
+    }
+
+    .node-name {
+      font-weight: bold;
+      font-size: 1.1rem;
+    }
+
+    .node-desc {
+      font-size: 0.85rem;
+      opacity: 0.7;
+      font-family: var(--font-mono);
+    }
+
+    .status { font-size: 0.7rem; letter-spacing: 1px; }
+    .status.online { color: var(--accent-color); }
+    .status.protected { color: #888; }
+
+    /* global.cssのリンクスタイル（下線）をカード全体には適用させない */
+    a.node-card { border-bottom: 1px solid var(--grid-color); }
+    a.node-card:hover { text-decoration: none; }
+  </style>
+</BaseLayout>
